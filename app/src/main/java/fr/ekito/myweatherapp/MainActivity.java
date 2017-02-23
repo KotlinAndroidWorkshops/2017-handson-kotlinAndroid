@@ -14,6 +14,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import fr.ekito.myweatherlibrary.WeatherSDK;
 import fr.ekito.myweatherlibrary.json.geocode.Geocode;
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
                         return WeatherSDK.getWeather(location.getLat(), location.getLng());
                     }
                 })
+                .timeout(40, TimeUnit.SECONDS)
                 .subscribe(new Observer<Weather>() {
                     @Override
                     public void onCompleted() {

@@ -1,0 +1,5 @@
+<resources>
+    <!-- Turn it on to pass your app offline -->
+    <bool name="is_offline">true</bool>
+    <string name="server_url">https://my-weather-api.herokuapp.com/</string>
+</resources>

@@ -21,6 +21,7 @@ public class MainApplication extends Application {
 
         WeatherSDK.init(this);
         Iconify.with(new WeathericonsModule());
+
         instance = this;
     }
 }

@@ -1,5 +1,6 @@
 package fr.ekito.myweatherlibrary.di;
 
+import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,14 +10,15 @@ import java.util.Map;
 
 
 /**
- * Simple Dependency Injector
+ * Simple Dependency Inject
  * agiuliani
  */
-public class Injector {
+public class Inject {
 
-    final static String TAG = "Injector";
+    final static String TAG = "Inject";
 
     static Map<Class, Object> instances = new HashMap<>();
+    private static Application applicationContext;
 
     /**
      * get a component
@@ -111,4 +113,7 @@ public class Injector {
         instances.clear();
     }
 
+    public static Application getApplicationContext() {
+        return get(Application.class);
+    }
 }

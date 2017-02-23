@@ -1,7 +1,9 @@
 package fr.ekito.myweatherlibrary.di;
 
+import android.app.Application;
+
 /**
- * Injector Module
+ * Inject Module
  * Help define instances
  */
 public abstract class Module {
@@ -11,13 +13,18 @@ public abstract class Module {
      */
     public abstract void load();
 
+
+    public Application getApplication(){
+        return Inject.getApplicationContext();
+    }
+
     /**
      * modules to load
      * @param modules
      */
     public void extend(Class<? extends Module>... modules) {
         for (Class<? extends Module> m : modules) {
-            Injector.load(m);
+            Inject.load(m);
         }
     }
 
@@ -27,7 +34,7 @@ public abstract class Module {
      */
     public void provides(Object... instances) {
         for (Object o : instances) {
-            Injector.add(o);
+            Inject.add(o);
         }
     }
 
@@ -37,6 +44,6 @@ public abstract class Module {
      * @param clazz
      */
     public void provide(Object instance, Class clazz){
-        Injector.add(instance,clazz);
+        Inject.add(instance,clazz);
     }
 }

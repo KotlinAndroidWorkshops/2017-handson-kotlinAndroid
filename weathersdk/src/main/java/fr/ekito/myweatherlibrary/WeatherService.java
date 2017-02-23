@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import fr.ekito.myweatherlibrary.di.Injector;
+import fr.ekito.myweatherlibrary.di.Inject;
 import fr.ekito.myweatherlibrary.json.geocode.Geocode;
 import fr.ekito.myweatherlibrary.json.weather.Weather;
 import fr.ekito.myweatherlibrary.ws.WeatherWS;
@@ -31,7 +31,7 @@ public class WeatherService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // inject stuff
-        weatherWS = Injector.get(WeatherWS.class);
+        weatherWS = Inject.get(WeatherWS.class);
 
         return mBinder;
     }
