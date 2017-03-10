@@ -1,12 +1,13 @@
 package fr.ekito.myweatherapp;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.joanzapata.iconify.widget.IconTextView;
@@ -23,20 +24,6 @@ import fr.ekito.myweatherlibrary.json.weather.Weather;
 import rx.Observable;
 import rx.Observer;
 import rx.functions.Func1;
-
-import static fr.ekito.myweatherapp.R.id.weather_icon_day1;
-import static fr.ekito.myweatherapp.R.id.weather_icon_day2;
-import static fr.ekito.myweatherapp.R.id.weather_icon_day3;
-import static fr.ekito.myweatherapp.R.id.weather_forecast_day1;
-import static fr.ekito.myweatherapp.R.id.weather_forecast_day2;
-import static fr.ekito.myweatherapp.R.id.weather_forecast_day3;
-import static fr.ekito.myweatherapp.R.id.weather_loadlayout;
-import static fr.ekito.myweatherapp.R.id.weather_forecast_today;
-import static fr.ekito.myweatherapp.R.id.weather_icon_today;
-import static fr.ekito.myweatherapp.R.id.weather_mainlayout;
-import static fr.ekito.myweatherapp.R.id.weather_temp_day1;
-import static fr.ekito.myweatherapp.R.id.weather_temp_day2;
-import static fr.ekito.myweatherapp.R.id.weather_temp_day3;
 
 public class MainActivity extends AppCompatActivity implements MainActivityWeatherCallback {
 
@@ -59,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
 
     private TextView title;
 
-    private ConstraintLayout loadLayout;
-    private ConstraintLayout mainLayout;
+    private RelativeLayout mainLayout;
+    private LinearLayout foreCastLayout;
 
     private Date now = new Date();
 
@@ -69,23 +56,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
 
         title = (TextView) findViewById(R.id.weather_title);
 
-        iconToday = (IconTextView) findViewById(weather_icon_today);
-        forecastToday = (TextView) findViewById(weather_forecast_today);
+        iconToday = (IconTextView) findViewById(R.id.weather_main_icon);
+        forecastToday = (TextView) findViewById(R.id.weather_main_text);
 
-        iconDay1 = (IconTextView) findViewById(weather_icon_day1);
-        forecastDay1 = (TextView) findViewById(weather_forecast_day1);
-        tempDay1 = (TextView) findViewById(weather_temp_day1);
+        iconDay1 = (IconTextView) findViewById(R.id.weather_icon_day1);
+        forecastDay1 = (TextView) findViewById(R.id.weather_forecast_day1);
+        tempDay1 = (TextView) findViewById(R.id.weather_temp_day1);
 
-        iconDay2 = (IconTextView) findViewById(weather_icon_day2);
-        forecastDay2 = (TextView) findViewById(weather_forecast_day2);
-        tempDay2 = (TextView) findViewById(weather_temp_day2);
+        iconDay2 = (IconTextView) findViewById(R.id.weather_icon_day2);
+        forecastDay2 = (TextView) findViewById(R.id.weather_forecast_day2);
+        tempDay2 = (TextView) findViewById(R.id.weather_temp_day2);
 
-        iconDay3 = (IconTextView) findViewById(weather_icon_day3);
-        forecastDay3 = (TextView) findViewById(weather_forecast_day3);
-        tempDay3 = (TextView) findViewById(weather_temp_day3);
+        iconDay3 = (IconTextView) findViewById(R.id.weather_icon_day3);
+        forecastDay3 = (TextView) findViewById(R.id.weather_forecast_day3);
+        tempDay3 = (TextView) findViewById(R.id.weather_temp_day3);
 
-        loadLayout = (ConstraintLayout) findViewById(weather_loadlayout);
-        mainLayout = (ConstraintLayout) findViewById(weather_mainlayout);
+        mainLayout = (RelativeLayout) findViewById(R.id.weather_main_layout);
+        foreCastLayout = (LinearLayout) findViewById(R.id.weather_forecast_layout);
     }
 
     @Override
@@ -97,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
 
         setSupportActionBar(toolbar);
 
-        loadLayout.setVisibility(View.VISIBLE);
         mainLayout.setVisibility(View.GONE);
+        foreCastLayout.setVisibility(View.GONE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
     public void updateWeatherUI(Weather weather, String location) {
 
         if (weather != null) {
-            loadLayout.setVisibility(View.GONE);
             mainLayout.setVisibility(View.VISIBLE);
+            foreCastLayout.setVisibility(View.VISIBLE);
 
             DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(MainApplication.get());
             DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainApplication.get());
