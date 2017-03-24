@@ -17,7 +17,7 @@ import rx.Observer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), MainActivityWeatherCallback {
+class MainActivity : AppCompatActivity() {
 
     private val now = Date()
 
@@ -30,13 +30,13 @@ class MainActivity : AppCompatActivity(), MainActivityWeatherCallback {
         weather_main_layout.visibility = View.GONE
         weather_forecast_layout.visibility = View.GONE
 
-        fab.setOnClickListener { view -> DialogHelper.locationDialog(view, this@MainActivity) }
+        fab.setOnClickListener { view -> DialogHelper.locationDialog(view, {location -> getWeatherData(view, location)}) }
     }
 
     /**
      * Retrieve Weather Data from the REST API
      */
-    override fun getWeatherData(view: View, location: String) {
+    fun getWeatherData(view: View, location: String) {
 
         Snackbar.make(view, "Getting your weather :)", Snackbar.LENGTH_SHORT).show()
 
