@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityWeath
             mainLayout.setVisibility(View.VISIBLE);
             foreCastLayout.setVisibility(View.VISIBLE);
 
-            DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(MainApplication.get());
-            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainApplication.get());
+            DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(MainApplication.Companion.get());
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainApplication.Companion.get());
             title.setText(getString(R.string.weather_title) + " " + location + "\n" + dateFormat.format(now) + " " + timeFormat.format(now));
 
             List<DailyForecastModel> forecasts = WeatherSDKUtil.INSTANCE.getDailyForecasts(weather);
