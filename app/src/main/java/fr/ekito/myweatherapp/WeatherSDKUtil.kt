@@ -41,62 +41,14 @@ object WeatherSDKUtil {
     private val WI_CLOUDY = "{wi_cloudy}"
     private val WI_FOG = "{wi_fog}"
     private val WI_DAY_CLOUDY = "{wi_day_cloudy}"
-
-
-    fun extractLocation(geocode: Geocode): Location? {
-        val results = geocode.results
-        if (results != null && results.size > 0) {
-            return results[0].geometry.location
-        } else {
-            return null
-        }
-    }
+    
+    fun extractLocation(geocode: Geocode): Location? = geocode.results.firstOrNull()?.geometry?.location
 
     fun getDailyForecasts(weather: Weather?): List<DailyForecastModel> {
-        if (weather != null) {
-            val forecastdayList = weather.forecast.simpleforecast.forecastday
-            val models = ArrayList<DailyForecastModel>()
-
-            //            return forecastdayList.stream()
-            //                    .mapToObj(f -> new DailyForecastModel(f.getConditions(), getWeatherCode(f.getIcon()),
-            //                                                          f.getLow().getCelsius(), f.getHigh().getCelsius()))
-            //                    .filter(f -> !f.getIcon().startsWith(PREFIX))
-            //                    .limit(4)
-            //                    .collect(Collectors.toList());
-
-            for (f in forecastdayList) {
-                models.add(
-                        DailyForecastModel(f.conditions,
-                                getWeatherCode(f.icon),
-                                f.low.celsius,
-                                f.high.celsius))
-            }
-
-            return filterForecast(models)
-        } else {
-            return ArrayList()
-        }
-    }
-
-    private fun filterForecast(forecastList: List<DailyForecastModel>): List<DailyForecastModel> {
-
-        val filtered = ArrayList<DailyForecastModel>()
-
-        //        return forecastList
-        //                .stream()
-        //                .filter(f -> !f.getIcon().startsWith(PREFIX))
-        //                .limit(4)
-        //                .collect(Collectors.toList());
-
-        for (f in forecastList) {
-            if (!f.icon.startsWith(PREFIX)) {
-                filtered.add(f)
-                if (filtered.size == 4) {
-                    break
-                }
-            }
-        }
-        return filtered
+        return weather?.forecast?.simpleforecast?.forecastday.orEmpty()
+                .map { f -> DailyForecastModel(f.conditions, getWeatherCode(f.icon), f.low.celsius, f.high.celsius) }
+                .filter { f -> !f.icon.startsWith(PREFIX) }
+                .take(4)
     }
 
     private fun getWeatherCode(icon: String): String {
