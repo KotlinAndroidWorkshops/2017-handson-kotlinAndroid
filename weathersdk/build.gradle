@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
 
 dependencies {
@@ -25,7 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
 
     //json
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.0'
 
     // Networking
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
