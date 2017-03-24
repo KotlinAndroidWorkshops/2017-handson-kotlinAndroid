@@ -41,7 +41,7 @@ object WeatherSDKUtil {
     private val WI_CLOUDY = "{wi_cloudy}"
     private val WI_FOG = "{wi_fog}"
     private val WI_DAY_CLOUDY = "{wi_day_cloudy}"
-    
+
     fun extractLocation(geocode: Geocode): Location? = geocode.results.firstOrNull()?.geometry?.location
 
     fun getDailyForecasts(weather: Weather?): List<DailyForecastModel> {
