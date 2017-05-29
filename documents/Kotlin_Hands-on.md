@@ -238,17 +238,17 @@ Un simple import via android studio, permet d'aller chercher le bon widget :
 
 ## Ex.2.3 - Extensions de fonctions
 
-**TODO :** Enrichir la classe `Geocode` pour y intégrer une méthode `getLocation() : Location? `, qui fait la même chose que notre méthode `extractLocation` de la classe `WeatherSDKUtil`.
+**TODO :** Enrichir la classe `Geocode` pour y intégrer une méthode `getGeocode() : Location? `, qui fait la même chose que notre méthode `extractLocation` de la classe `WeatherSDKUtil`.
 
 * Créer le package `fr.ekito.myweatherlibrary.json.geocode` dans le module `app`, et y ajouter la fichier Kotlin `GeoCodeExt.kt`
-* Créer l'extension de fonction `Geocode.getLocation()`
+* Créer l'extension de fonction `Geocode.getGeocode()`
 * Supprimer la fonction `WeatherSDKUtil.extractLocation()`
 * Mettre à jour le bloc de code appelant : 
 
 ```
 .map { geocode -> WeatherSDKUtil.extractLocation(geocode) }
 ```
-par une référence de fonction `Geocode::getLocation`. 
+par une référence de fonction `Geocode::getGeocode`. 
 
 **REMARQUE :** Kotlin a très souvent utilisé ce mécanisme d'extensions Kotlin pour enrichir les API Java (ex: les collections).
 

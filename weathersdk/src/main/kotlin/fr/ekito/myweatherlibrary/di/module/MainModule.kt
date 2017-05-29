@@ -1,5 +1,6 @@
 package fr.ekito.myweatherlibrary.di.module
 
+import android.app.Application
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
@@ -8,8 +9,9 @@ import fr.ekito.myweatherlibrary.R
 import fr.ekito.myweatherlibrary.WeatherService
 import fr.ekito.myweatherlibrary.di.Inject
 import fr.ekito.myweatherlibrary.di.Module
-import fr.ekito.myweatherlibrary.ws.WeatherMockWS
+import fr.ekito.myweatherlibrary.json.AndroidJsonReader
 import fr.ekito.myweatherlibrary.ws.WeatherWS
+import fr.ekito.myweatherlibrary.ws.mock.WeatherMockWS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,7 +30,8 @@ class MainModule : Module() {
     override fun load() {
         provide(registerService(), ServiceConnection::class.java)
 
-        val resources = application()!!.resources
+        val application = application()!!
+        val resources = application.resources
         val isOffline = resources.getBoolean(R.bool.is_offline)
 
         Log.w(TAG, "use offline strategy ? $isOffline")
@@ -37,7 +40,7 @@ class MainModule : Module() {
             val url = resources.getString(R.string.server_url)
             provide(retrofitWS(url), WeatherWS::class.java)
         } else {
-            provide(mockWS(), WeatherWS::class.java)
+            provide(mockWS(application), WeatherWS::class.java)
         }
     }
 
@@ -75,5 +78,5 @@ class MainModule : Module() {
         return retrofit.create(WeatherWS::class.java)
     }
 
-    fun mockWS(): WeatherWS = WeatherMockWS()
+    fun mockWS(application: Application): WeatherWS = WeatherMockWS(AndroidJsonReader(application))
 }
