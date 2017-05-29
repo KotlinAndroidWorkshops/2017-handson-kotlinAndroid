@@ -29,7 +29,7 @@ abstract class BaseReader : JsonReader {
 
     override fun getWeather(name: String): Weather = gson.fromJson<Weather>(readJsonFile(weather_prefix + name + json_file), Weather::class.java)
 
-    abstract fun getAllFiles(): Array<String>
+    abstract fun getAllFiles(): List<String>
 
     abstract fun readJsonFile(jsonFile: String): String
 }

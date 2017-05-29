@@ -1,22 +1,15 @@
 package fr.ekito.myweatherlibrary.json
 
-import android.app.Application
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import java.io.File
 
 /**
  * Created by arnaud on 29/05/2017.
  */
-class JavaReader(val application: Application) : BaseReader() {
+class JavaReader : BaseReader() {
 
-    override fun getAllFiles(): Array<String> = application.assets.list("json")
+    val base_path = "weathersdk/src/main/assets/json"
 
-    override fun readJsonFile(jsonFile: String): String {
-        val buf = StringBuilder()
-        val json = application.assets.open("json/" + jsonFile)
-        BufferedReader(InputStreamReader(json, "UTF-8")).use { br ->
-            buf.append(br.lineSequence().joinToString(separator = "\n"))
-        }
-        return buf.toString()
-    }
+    override fun getAllFiles(): List<String> = File(base_path).list().toList()
+
+    override fun readJsonFile(jsonFile: String): String = File("$base_path/$jsonFile").readLines().joinToString(separator = "\n")
 }

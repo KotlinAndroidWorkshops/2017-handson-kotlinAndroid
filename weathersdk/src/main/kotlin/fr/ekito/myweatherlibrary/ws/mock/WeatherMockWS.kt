@@ -1,6 +1,5 @@
 package fr.ekito.myweatherlibrary.ws.mock
 
-import android.util.Log
 import fr.ekito.myweatherlibrary.json.JsonReader
 import fr.ekito.myweatherlibrary.json.geocode.Geocode
 import fr.ekito.myweatherlibrary.json.geocode.Location
@@ -14,13 +13,11 @@ import io.reactivex.Single
 
 
 class WeatherMockWS(val jsonReader: JsonReader) : WeatherWS {
-    private val TAG = WeatherMockWS::class.java.simpleName
     private val cities = HashMap<Location, String>()
     private val default_city = "toulouse"
 
     init {
         cities += jsonReader.getAllLocations()
-        Log.i(TAG, "Can respond for cities : " + cities)
     }
 
     private fun isKnownCity(adrs: String): Boolean {
