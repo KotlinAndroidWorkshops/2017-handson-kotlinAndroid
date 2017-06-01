@@ -3,6 +3,7 @@ package fr.ekito.myweatherapp
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.joanzapata.iconify.widget.IconTextView
@@ -11,6 +12,8 @@ import fr.ekito.myweatherlibrary.json.geocode.Geocode
 import fr.ekito.myweatherlibrary.json.geocode.getLocation
 import fr.ekito.myweatherlibrary.json.weather.Weather
 import fr.ekito.myweatherlibrary.json.weather.getDailyForecasts
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
@@ -19,6 +22,8 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     private val now = Date()
+
+    var weatherSDK: WeatherSDK = MainApplication.get().weatherSDK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,20 +34,21 @@ class MainActivity : AppCompatActivity() {
         weather_main_layout.visibility = View.GONE
         weather_forecast_layout.visibility = View.GONE
 
-        fab.setOnClickListener { view -> DialogHelper.locationDialog(view, {location -> getWeatherData(view, location)}) }
+        fab.setOnClickListener { view -> DialogHelper.locationDialog(view, { location -> getWeatherData(view, location) }) }
     }
 
     /**
      * Retrieve Weather Data from the REST API
      */
     fun getWeatherData(view: View, location: String) {
+        Snackbar.make(view, "Getting your getWeather :)", Snackbar.LENGTH_SHORT).show()
 
-        Snackbar.make(view, "Getting your weather :)", Snackbar.LENGTH_SHORT).show()
-
-        WeatherSDK.getGeocode(location)
+        weatherSDK.service.getGeocode(location)
                 .map(Geocode::getLocation)
-                .flatMap { location -> WeatherSDK.getWeather(location!!.lat, location.lng) }
+                .flatMap { location -> weatherSDK.service.getWeather(location!!.lat, location.lng) }
                 .timeout(40, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { weather -> updateWeatherUI(weather, location) },
                         { error -> Snackbar.make(view, "Weather Error : " + error, Snackbar.LENGTH_LONG).show() })

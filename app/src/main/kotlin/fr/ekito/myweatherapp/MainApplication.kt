@@ -9,19 +9,23 @@ import fr.ekito.myweatherlibrary.WeatherSDK
 
 class MainApplication : Application() {
 
+    lateinit var weatherSDK: WeatherSDK
+
     override fun onCreate() {
         super.onCreate()
 
-        WeatherSDK.init(this)
+        weatherSDK = WeatherSDK()
+        weatherSDK.init(this)
+
         Iconify.with(WeathericonsModule())
         instance = this
     }
 
     companion object {
 
-        private lateinit  var instance: MainApplication
+        private lateinit var instance: MainApplication
 
-        fun get(): Application {
+        fun get(): MainApplication {
             return instance
         }
     }

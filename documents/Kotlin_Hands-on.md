@@ -34,7 +34,7 @@ Le dépôt GIT est constitué de plusieurs branches, comme illustré ci-dessous 
 
 * `master` : Il s'agit de la branche à partir de laquelle vous devez partir pour travailler sur le Hands-on. Elle contient le projet dans sa version Java.
 * `solution` : Elle contient l'ensemble des commits étape par étape de la solution. Il y a un commit par exercice. Si vous êtes bloqué vous pouvez simplement regarder le commit de la solution qui vous intéresse ou bien créer une branche à partir d'un commit de la solution. N'hésitez pas à nous solliciter si besoin pour les manipulations `git`. **Notez le tag `End-Part1` qui vous permettra si besoin de raccrocher les wagons après la pause en milieu de session.**
-* `solution-full-kotlin-1.1-rxjava2` : Elle contient la partie bonus indiqué à la fin du Hands-on dans laquelle le module `WeatherSDK` a été aussi entièrement migré en Kotlin 1.1 et RXJava2.
+* `solution-full-kotlin-1.1-rxjava2` : Elle contient la partie bonus indiqué à la fin du Hands-on dans laquelle le context `WeatherSDK` a été aussi entièrement migré en Kotlin 1.1 et RXJava2.
 
 # Exercices (Série 1)
 
@@ -75,7 +75,7 @@ Kotlin possède un type de classe à instance unique (singleton) : le [type Obje
 
 **Remarque :** Remarquez l'impact sur la classe `MainActivity`. Les appels vers cette classe utilisent directement l'interop Java/Kotlin :
 ```
-List<DailyForecastModel> forecasts = WeatherSDKUtil.INSTANCE.getDailyForecasts(weather); 
+List<DailyForecastModel> forecasts = WeatherSDKUtil.INSTANCE.getDailyForecasts(getWeather); 
 ```
 
 **TODO :** Analyser la transformation de la méthode `getWeatherCode`. Le `switch` case a été remplacé par `when` :
@@ -179,7 +179,7 @@ Chaque développeur Android connaît bien la fonction `findViewById()`, source d
 
 Le plugin [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html#using-kotlin-android-extensions) nous permet d'obtenir la même expérience, sans bibliothèque ni runtime supplémentaire.
 
-**TODO :** Intégrer le plugin dans le module gradle de l'application, en insérant la ligne `apply plugin: 'kotlin-android-extensions'` dans le fichier `build.gradle`. Nous aurons donc cet entête de fichier : 
+**TODO :** Intégrer le plugin dans le context gradle de l'application, en insérant la ligne `apply plugin: 'kotlin-android-extensions'` dans le fichier `build.gradle`. Nous aurons donc cet entête de fichier : 
 
 ```
 apply plugin: 'com.android.application'
@@ -240,23 +240,23 @@ Un simple import via android studio, permet d'aller chercher le bon widget :
 
 **TODO :** Enrichir la classe `Geocode` pour y intégrer une méthode `getGeocode() : Location? `, qui fait la même chose que notre méthode `extractLocation` de la classe `WeatherSDKUtil`.
 
-* Créer le package `fr.ekito.myweatherlibrary.json.geocode` dans le module `app`, et y ajouter la fichier Kotlin `GeoCodeExt.kt`
+* Créer le package `fr.ekito.myweatherlibrary.json.getGeocode` dans le context `app`, et y ajouter la fichier Kotlin `GeoCodeExt.kt`
 * Créer l'extension de fonction `Geocode.getGeocode()`
 * Supprimer la fonction `WeatherSDKUtil.extractLocation()`
 * Mettre à jour le bloc de code appelant : 
 
 ```
-.map { geocode -> WeatherSDKUtil.extractLocation(geocode) }
+.map { getGeocode -> WeatherSDKUtil.extractLocation(getGeocode) }
 ```
 par une référence de fonction `Geocode::getGeocode`. 
 
 **REMARQUE :** Kotlin a très souvent utilisé ce mécanisme d'extensions Kotlin pour enrichir les API Java (ex: les collections).
 
-**TODO :** Enrichir la classe `Weather` pour y intégrer une méthode `getDailyForecasts(): List<DailyForecastModel>`, qui fait la même chose que notre méthode `getDailyForecasts(weather: Weather?) : List<DailyForecastModel>` de la classe `WeatherSDKUtil`.
+**TODO :** Enrichir la classe `Weather` pour y intégrer une méthode `getDailyForecasts(): List<DailyForecastModel>`, qui fait la même chose que notre méthode `getDailyForecasts(getWeather: Weather?) : List<DailyForecastModel>` de la classe `WeatherSDKUtil`.
 
-* Créer le package `fr.ekito.myweatherlibrary.json.weather` dans le module `app`, et y ajouter la fichier Kotlin `WeatherExt.kt`
+* Créer le package `fr.ekito.myweatherlibrary.json.getWeather` dans le context `app`, et y ajouter la fichier Kotlin `WeatherExt.kt`
 * Créer l'extension `getDailyForecasts(): List<DailyForecastModel>`
-* Supprimer la méthode `getDailyForecasts(weather: Weather?)` de la classe `WeatherSDKUtil`
+* Supprimer la méthode `getDailyForecasts(getWeather: Weather?)` de la classe `WeatherSDKUtil`
 * Rappatrier les méthodes et propriétés nécessaires de la classe `WeatherSDKUtil`
 * Mettre à jour la méthode `updateWeatherUI`
 

@@ -1,1 +1,1 @@
-include ':app', ':weathersdk'
+include ':app', ':weather-sdk', ':koin-android'
