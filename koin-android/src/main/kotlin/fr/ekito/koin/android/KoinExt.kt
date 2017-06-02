@@ -4,7 +4,7 @@ import android.app.Application
 import fr.ekito.koin.Koin
 
 /**
- * init android Application - for Koin koinContext
+ * init android Application - for Koin koin
  */
 fun Koin.init(application: Application): Koin {
     context.provide { application }

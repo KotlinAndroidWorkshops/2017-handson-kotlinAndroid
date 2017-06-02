@@ -10,12 +10,12 @@ import kotlin.reflect.KClass
  */
 open class KoinApplication(val clazz: KClass<out AndroidModule>) : Application() {
 
-    lateinit var koinContext: Context
+    lateinit var koin: Context
 
     override fun onCreate() {
         super.onCreate()
 
-        koinContext = Koin()
+        koin = Koin()
                 .init(this)
                 .build(clazz)
     }
