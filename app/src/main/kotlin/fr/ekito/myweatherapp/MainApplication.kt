@@ -1,12 +1,11 @@
 package fr.ekito.myweatherapp
 
 import android.app.Application
-
 import com.joanzapata.iconify.Iconify
 import com.joanzapata.iconify.fonts.WeathericonsModule
-
 import fr.ekito.myweatherlibrary.WeatherSDK
 
+//KoinApplication(SDKModule::class)
 class MainApplication : Application() {
 
     lateinit var weatherSDK: WeatherSDK
